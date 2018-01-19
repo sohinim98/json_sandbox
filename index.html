@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>JSON Sandbox</title>
+    </head>
+    <body>
+        <!--to display on screen -->
+        <ul id='people'></ul>
+        <script>
+            //with JSON objects "" around both key and value
+            var person = {
+                "name": "Sohini",
+                "age": 35,
+                "address":{
+                    street: "5 main st",
+                    "city": "Boston"
+                },
+                children:["Roopkatha","Rupantar"]
+                //not valid because data type cannot be a function, has to be on of the mentioned data types of number, string, etc
+                /* "email": function(){
+                    return 'sohinim98@gmail.com';
+                } */
+                //person = JSON.stringify(person);
+                //person = JSON.parse(person);
+                //converts to JSON object in case of name:"Sohini" (JS object not JSON object)
+            }
+            console.log(person.address.street);
+
+            //array of people objects (JS objects array, not JSON)
+           /* var people = [
+                {
+                    name:"Brad",
+                    age:35
+                },
+                {
+                    name: "Sohini",
+                    age:40
+                }
+            ];
+            console.log(people[1].age);
+            var output = '';
+            for(var i=0;i<people.length;i++){
+                //console.log(people[i]);
+                //console.log(people[i].name);
+                output += '<li>'+people[i].name+'</li>';
+            }
+            //no # required for getElementById because we know it's ID
+            document.getElementById('people').innerHTML = output;
+
+            console.log(person.age);
+            console.log(person.email());
+            console.log(person.children[0]); */
+
+            //much easier if you use jQuery
+            //browser has the xhttp object, we get it and put it here ie create an XMLHttpRequest Object
+            var xhttp = new XMLHttpRequest();
+            //function is executed everytime the state of the object changes
+            xhttp.onreadystatechange = function() {
+                //when this happens the response is ready
+                if (this.readyState == 4 && this.status == 200) {
+                    // Typical action to be performed when the document is ready:
+                    //document.getElementById("demo").innerHTML = xhttp.responseText;
+                    //console.log(xhttp.responseText);
+                    //the responseText property returns the server response as a (JSON)text string
+                    var response = JSON.parse(xhttp.responseText);
+                    //JSON.parse converts JSON object to JS object so we can get response.people
+                    //console.log(response.people);
+                    var people = response.people;
+                    var output = '';
+                    for(var i = 0;i < people.length;i++){
+                        //console.log(people[i]);
+                        //console.log(people[i].name);
+                        output += '<li>'+people[i].name+'</li>';
+                    }
+                    document.getElementById('people').innerHTML = output;
+                }
+                //have to use a server xampp or node.js ->> live server Install nodejs and then npm insta;; -g live-server (in the json_sandbox directory) then live-server
+                //live-server
+                //Can use JSON Lint to see if proper JSON Object
+};
+xhttp.open("GET", "people.json", true);
+//could also be POST
+//specifies the type of request
+xhttp.send();
+//sends request to the server(used for GET)
+//send(string) is used for POST to sebd request to the server
+/*
+xhttp.open("POST", "ajax_test.asp", true);
+xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+xhttp.send("fname=Henry&lname=Ford");
+or
+xhttp.open("POST", "demo_post.asp", true);
+xhttp.send();
+*/
+        </script>
+    </body>
+</html>
